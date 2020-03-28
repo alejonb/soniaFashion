@@ -80,6 +80,7 @@
             let begin = Date.now()
 
             cap.read(src)
+            cv.flip(src, src, 1)
             cv.cvtColor(src, dst, cv.COLOR_RGB2GRAY)
             cv.imshow('the-canvas', dst)
 
