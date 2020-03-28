@@ -50,7 +50,8 @@
   </div>
 
   <div>
-    <video id="video" style="height: 100vh; width: 100vw;"></video>
+    <video id="video" style="min-height: 100vh; min-width: 100vw;"></video>
+    <canvas id="the-canvas" style="min-height: 100vh; min-width: 100vw; display: none"></canvas>
   </div>
 
   <script>
@@ -67,31 +68,32 @@
             console.log("An error occurred! " + err)
         })
 
-//       let src = new cv.Mat(video.height, video.width, cv.CV_8UC4)
-//       let dts = new cv.Mat(video.height, video.width, cv.CV_8UC1)
-//       let cap = new cv.VideoCapture(video)
-// 
-//       const FPS = 30
-//       function processVideo(){
-//         try{
-//           if(!streaming){
-//             src.delete()
-//             dst.delete()
-//             return
-//           }
-//           let begin = Date.now()
-// 
-//           cap.read(src)
-//           cv.cvtColor(src, dst, cv.COOLOR_RGB2GRAY)
-//           cv.imshow('canvasOutput', dst)
-// 
-//           let delay = 1000/FPS - (Date.now() - begin)
-//           setTimeout(processVideo, delay)
-//         } catch(err){
-//           utils.printError(err)
-//         }
-//       }
-//       setTimeout(processVideo, 0)
+
+      let src = new cv.Mat(video.height, video.width, cv.CV_8UC4)
+      let dts = new cv.Mat(video.height, video.width, cv.CV_8UC1)
+      let cap = new cv.VideoCapture(video)
+
+      const FPS = 30
+      function processVideo(){
+        try{
+          if(!streaming){
+            src.delete()
+            dst.delete()
+            return
+          }
+          let begin = Date.now()
+
+          cap.read(src)
+          cv.cvtColor(src, dst, cv.COOLOR_RGB2GRAY)
+          cv.imshow('the-canvas', dst)
+
+          let delay = 1000/FPS - (Date.now() - begin)
+          setTimeout(processVideo, delay)
+        } catch(err){
+          utils.printError(err)
+        }
+      }
+      setTimeout(processVideo, 0)
     }
   </script>
 
