@@ -1,74 +1,128 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<title>Hello OpenCV.js</title>
+  <meta charset="utf-8">
+  <title>SoniaFashion</title>
+
+  <link rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+    crossorigin="anonymous">
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+
 </head>
-<body>
-<h2>Hello OpenCV.js</h2>
-<p id="status">OpenCV.js is loading...</p>
-<div>
-  <div class="inputoutput">
-    <img id="imageSrc" alt="No Image" />
-    <div class="caption">imageSrc <input type="file" id="fileInput" name="file" /></div>
-  </div>
-  <div class="inputoutput">
-    <canvas id="canvasOutput" ></canvas>
-    <div class="caption">canvasOutput</div>
-  </div>
-</div>
-<video id="video" width="300" height="225"></video>
 
-<script type="text/javascript">
-let imgElement = document.getElementById('imageSrc');
-let inputElement = document.getElementById('fileInput');
-inputElement.addEventListener('change', (e) => {
-  imgElement.src = URL.createObjectURL(e.target.files[0]);
-}, false);
-imgElement.onload = function() {
-  let mat = cv.imread(imgElement);
-  cv.imshow('canvasOutput', mat);
-  mat.delete();
-};
-function onOpenCvReady() {
-  document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
-}
-let video = document.getElementById('video');
-navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-  .then(function(stream) {
-      video.srcObject = stream;
-      video.play();
-  })
-  .catch(function(err) {
-      console.log("An error occurred! " + err);
-  });
-let src = new cv.Mat(video.height, video.width, cv.CV_8UC4);
-let dts = new cv.Mat(video.height, video.width, cv.CV_8UC1);
-let cap = new cv.VideoCapture(video);
+<body style="background-color: black;">
+  <div style="
+    width: fit-content;
+    color: white;
+    padding: 2px 10px;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.4);
+  ">
+    <h2>SoniaFashion</h2>
+  </div>
 
-const FPS = 30;
-function processVideo(){
-  try{
-    if(!streaming){
-      src.delete();
-      dst.delete();
-      return;
+  <div id="loading-div">
+    <div class="d-flex">
+      <div class="m-auto">
+        <div class="spinner-grow text-muted"></div>
+        <div class="spinner-grow text-primary"></div>
+        <div class="spinner-grow text-success"></div>
+        <div class="spinner-grow text-info"></div>
+        <div class="spinner-grow text-warning"></div>
+        <div class="spinner-grow text-danger"></div>
+        <div class="spinner-grow text-secondary"></div>
+        <div class="spinner-grow text-dark"></div>
+        <div class="spinner-grow text-light"></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: none">
+    <div class="inputoutput">
+      <img id="imageSrc" alt="No Image" />
+      <div class="caption">imageSrc <input type="file" id="fileInput" name="file" /></div>
+    </div>
+    <div class="inputoutput">
+      <canvas id="canvasOutput" ></canvas>
+      <div class="caption">canvasOutput</div>
+    </div>
+  </div>
+
+  <div>
+    <video id="video" style="height: 100vh; width: 100vw;"></video>
+  </div>
+
+  <script>
+    function onOpenCvReady() {
+      document.getElementById('loading-div').style.display = 'none'
     }
-    let begin = Date.now();
-    
-    cap.read(src);
-    cv.cvtColor(src, dst, cv.COOLOR_RGB2GRAY);
-    cv.imshow('canvasOutput', dst);
-    
-    let delay = 1000/FPS - (Date.now() - begin);
-    setTimeout( processVideo, delay);
-  } catch(err){
-    utils.printError(err);
-  }
-};
-setTimeout(processVideo,0);
+  </script>
 
-</script>
-  <script async src="https://docs.opencv.org/master/opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
-</body>
+  <script async
+    src="https://docs.opencv.org/master/opencv.js"
+    onload="onOpenCvReady();"></script>
+
+  <script>
+    let imgElement = document.getElementById('imageSrc');
+    let inputElement = document.getElementById('fileInput');
+    inputElement.addEventListener('change', (e) => {
+      imgElement.src = URL.createObjectURL(e.target.files[0]);
+    }, false);
+    imgElement.onload = function() {
+      let mat = cv.imread(imgElement);
+      cv.imshow('canvasOutput', mat);
+      mat.delete();
+    };
+
+
+    let video = document.getElementById('video');
+    navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+      .then(function(stream) {
+          video.srcObject = stream;
+          video.play();
+      })
+      .catch(function(err) {
+          console.log("An error occurred! " + err);
+      });
+
+    let src = new cv.Mat(video.height, video.width, cv.CV_8UC4);
+    let dts = new cv.Mat(video.height, video.width, cv.CV_8UC1);
+    let cap = new cv.VideoCapture(video);
+
+    const FPS = 30;
+    function processVideo(){
+      try{
+        if(!streaming){
+          src.delete();
+          dst.delete();
+          return;
+        }
+        let begin = Date.now();
+
+        cap.read(src);
+        cv.cvtColor(src, dst, cv.COOLOR_RGB2GRAY);
+        cv.imshow('canvasOutput', dst);
+
+        let delay = 1000/FPS - (Date.now() - begin);
+        setTimeout(processVideo, delay);
+      } catch(err){
+        utils.printError(err);
+      }
+    };
+    setTimeout(processVideo, 0);
+  </script>
+
+  </body>
 </html>
