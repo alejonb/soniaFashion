@@ -90,7 +90,10 @@
           // detect faces
           let faces = new cv.RectVector();
           faceCascade.detectMultiScale(
-            dst, faces, 1.5, 3, 0, new cv.Size(100, 100), new cv.Size(0, 0));
+            dst, faces, 1.5, 3, 0,
+            new cv.Size(video.width * 0.2, video.height * 0.2),
+            new cv.Size(0, 0)
+          )
 
           let imface = dst
           for (let i = 0; i < Math.min(faces.size(), 1); ++i) {
