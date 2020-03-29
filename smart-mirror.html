@@ -104,6 +104,12 @@
             const point1 = new cv.Point(face.x, face.y)
             const point2 = new cv.Point(face.x + face.width, face.y + face.height)
             cv.rectangle(src, point1, point2, [255, 0, 0, 255])
+
+            imface.convertTo(imface, cv.CV_32F, 1.0 / 255, 0)
+            let model_face = new cv.Mat(96, 96, cv.CV_8UC1)
+            cv.resize(imface, model_face, model_face.size(), 0, 0, cv.INTER_AREA)
+            // const face_resized = face_resized.reshape(1, 96, 96, 1)
+            // const landmarks = model.predict(tf.tensor1d(model_face))
           }
 
           cv.imshow('the-canvas', src)
