@@ -76,10 +76,10 @@
       const faceCascade = new cv.CascadeClassifier()
       faceCascade.load('haarcascade_frontalface_default.xml')
 
-      const model = await tf.loadLayersModel('https://tucanoar.com/file/model.json')
+      // const model = await tf.loadLayersModel('https://tucanoar.com/file/model.json')
 
       const FPS = 30
-      function processVideo(){
+      const processVideo = async () => {
         try {
           const begin = Date.now()
           cap.read(src)
@@ -121,7 +121,7 @@
       }
       setTimeout(processVideo, 0)
     }
-  </script>
+  ;</script>
 
   <script>
     let utils = new Utils('errorMessage')
@@ -129,11 +129,12 @@
     utils.loadOpenCv(() => {
       utils.createFileFromUrl(
         'haarcascade_frontalface_default.xml',
-        'https://docs.opencv.org/3.4/haarcascade_frontalface_default.xml',
+        // 'https://docs.opencv.org/3.4/haarcascade_frontalface_default.xml',
+        'https://tucanoar.com/file/haarcascade_frontalface_default.xml',
         onOpenCvReady
       )
     })
-  </script>
+  ;</script>
 
   </body>
 </html>
